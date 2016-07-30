@@ -4,6 +4,7 @@
   "private": true,
   "devDependencies": {
     "autoprefixer": "6.3.7",
+    "babel-cli": "^6.11.4",
     "babel-core": "6.10.4",
     "babel-eslint": "6.1.2",
     "babel-loader": "6.2.4",
@@ -42,9 +43,13 @@
     "react-dom": "^15.2.1"
   },
   "babel": {
-    "presets": ["es2015", "react"]
+    "presets": [
+      "es2015",
+      "react"
+    ]
   },
   "scripts": {
+    "babel": "babel-node",
     "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js \"test/**/*@(.js|.jsx)\"",
     "start": "node ./scripts/start.js",
     "build": "node ./scripts/build.js"
