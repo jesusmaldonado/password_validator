@@ -2,7 +2,6 @@ var englishWords = require("an-array-of-english-words");
 export function replaceEnglishWords(password){
   return password.replace(/([a-zA-Z]+)/g, (match) => {
     if (englishWords.includes(match.toLowerCase())) {
-      console.log(match);
       return 'a';
     } else {
       return match;

@@ -10,34 +10,40 @@ import {
 
 describe('Password Service', () => {
   describe('validatePassword', () => {
-    //   it('returns the unacceptable password', () => {
-    //     var password = 'a';
-    //     var result = validatePassword(password);
-    //     expect(result.strength).to.equal('unacceptable');
-    //   });
-      it('returns lengthened password when weak', () => {
-        var password = 'x0_ ';
+      it('returns the unacceptable password', () => {
+        var password = 'a';
         var result = validatePassword(password);
+
+        expect(result.strength).to.equal('unacceptable');
+      });
+      it('returns lengthened password when weak', () => {
+        const password = 'x0_ ';
+        const result = validatePassword(password);
+
         expect(result.modifiedPassword.length).to.be.above(password.length);
         expect(result.strength).to.equal('weak');
         expect(result.passwordStrength).to.be.above(50);
       });
-    //   it('returns substituted password when weak', () => {
-    //     var password = 'x02)rrrrrrrrrrrr';
-    //
-    //     var result = validatePassword(password);
-    //     expect(result.strength).to.equal('weak');
-    //   });
-    //   it('returns substituted, lengthened password when weak', ()=> {
-    //     var password = 'x02)rrrrrr';
-    //     var result = validatePassword(password);
-    //     expect(result.strength).to.equal('weak');
-    //   });
-      it('returns the password unmodified when strong', () => {
-        var password = 'x0_ r2461345a';
-
+      it('returns substituted password when weak', () => {
+        var password = 'x02)rrrrrrrrrrrr';
         var result = validatePassword(password);
+        expect(result.strength).to.equal('weak');
+        expect(result.modifiedPassword.length).to.equal(password.length);
+        expect(result.passwordStrength).to.be.above(50);
+      });
+      it('returns substituted, lengthened password when weak', ()=> {
+        var password = 'x02)rrrrrr';
+        var result = validatePassword(password);
+        expect(result.modifiedPassword.length).to.be.above(password.length);
+        expect(result.passwordStrength).to.be.above(50);
+        expect(result.strength).to.equal('weak');
+      });
+      it('returns the password unmodified when strong', () => {
+        const password = 'x0_ r2461345a';
+
+        const result = validatePassword(password);
         expect(result.strength).to.equal('strong');
+        expect(result.originalPassword).to.equal(password);
     });
   });
   describe('replaceWords', () => {
@@ -71,7 +77,6 @@ describe('Password Service', () => {
     });
     it('counts a m4n correctly', () => {
       expect(countCharacterTypes('a m4n')[0]).to.equal(3);
-
     });
     it('counts s0_0a 5n4k3 correctly', () => {
       expect(countCharacterTypes('s0_0a 5n4k3')[0]).to.equal(4);
@@ -82,7 +87,6 @@ describe('Password Service', () => {
     it('returns a lengthened password', () => {
       var password = 'x0_ ';
       var result = modifyPassword(password);
-      console.log(result);
       expect(result.length).to.not.equal(password.length);
     });
     it('returns a substituted before a lengthened password', () => {
