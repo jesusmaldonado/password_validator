@@ -53,10 +53,19 @@ export function countCharacterTypes(string){
                                .filter((type) => {
                                  return !includedCharacterTypes.includes(type);
                                });
+  const repeatedCharacterTypes = keys
+                                .filter((key) => {
+                                  const instanceCount = characterTypes[key];
+                                  if (instanceCount > 1) {
+                                    return true;
+                                  }
+                                  return false;
+                                });
   return [
     characterTypeCount,
     includedCharacterTypes,
     missingCharacterTypes,
+    repeatedCharacterTypes,
     characterTypes
   ];
 }
@@ -100,7 +109,8 @@ export function modifyPassword(password) {
     characterTypeCount,
     includedCharacterTypes,
     missingCharacterTypes,
+    repeatedCharacterTypes,
     characterTypes
   ] = countCharacterTypes(password);
-  return missingCharacterTypes;
+  return repeatedCharacterTypes;
 };
