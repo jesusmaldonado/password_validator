@@ -3,7 +3,8 @@ import {
   validatePassword,
   replaceEnglishWords,
   countStrength,
-  countCharacterTypes
+  countCharacterTypes,
+  modifyPassword
 } from '../src/services/password_service';
 
 describe('Password Service', () => {
@@ -44,6 +45,12 @@ describe('Password Service', () => {
     });
     it('counts s0_0a 5n4k3 correctly', () => {
       expect(countCharacterTypes('s0_0a 5n4k3')[0]).to.equal(4);
+    });
+  });
+
+  describe('modifyPassword', () => {
+    it('modifies characters before inserting new ones', () => {
+      expect(modifyPassword('goat m4n')).to.deep.equal(['other']);
     });
   });
 });

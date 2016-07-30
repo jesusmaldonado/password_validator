@@ -17,25 +17,47 @@ export function countCharacterTypes(string){
   for (let idx in string) {
     const char = string[idx];
     if (char.match(/[a-zA-Z]/g)) {
-      characterTypes['letters'] = 1;
+      characterTypes['letters'] += 1;
       continue
     }
     if (char.match(/[0-9]/g)) {
-      characterTypes['digits'] = 1;
+      characterTypes['digits'] += 1;
       continue
     }
     if (char.match(/ /g)) {
-      characterTypes['whitespace'] = 1;
+      characterTypes['whitespace'] += 1;
       continue
     }
     //if we are here we have another character
-    characterTypes['other'] = 1;
+    characterTypes['other'] += 1;
   }
   const keys = Object.keys(characterTypes);
-  const values = keys.map(key => characterTypes[key]);
+  const characterTypeCount = keys
+                             .map((key) => {
+                               const instanceCount = characterTypes[key];
+                               if (instanceCount > 0) {
+                                 return 1;
+                               }
+                               return 0;
+                            })
+                            .reduce((a, b) => a+b);
+  const includedCharacterTypes = keys
+                                 .filter((key) => {
+                                   const instanceCount = characterTypes[key];
+                                   if (instanceCount > 0) {
+                                     return true;
+                                   }
+                                   return false;
+                                 });
+  const missingCharacterTypes = Object.keys(characterTypes)
+                               .filter((type) => {
+                                 return !includedCharacterTypes.includes(type);
+                               });
   return [
-    values.reduce((a, b) => a + b),
-    keys
+    characterTypeCount,
+    includedCharacterTypes,
+    missingCharacterTypes,
+    characterTypes
   ];
 }
 export function countStrength(string) {
@@ -51,18 +73,34 @@ export function validatePassword(password){
       return {
         originalPassword: password,
         passwordStrength,
+        strength: 'strong',
         message: `Congratulations ${password} is strong!`
       }
     case (passwordStrength >= 10 && passwordStrength <= 50):
       const modifiedPassword = modifyPassword(password);
       return {
-
+        originalPassword: password,
+        modifiedPassword,
+        passwordStrength,
+        strength: 'weak',
+        message: `${password} is too weak! How about ${modifiedPassword}`
       }
     default:
       return {
         originalPassword: password,
         passwordStrength,
-        message: `${password} is too weak!`
+        strength: 'unacceptable',
+        message: `${password} is unacceptable!`
       }
   }
+};
+
+export function modifyPassword(password) {
+  const [
+    characterTypeCount,
+    includedCharacterTypes,
+    missingCharacterTypes,
+    characterTypes
+  ] = countCharacterTypes(password);
+  return missingCharacterTypes;
 };
