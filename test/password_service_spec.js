@@ -33,12 +33,12 @@ describe('Password Service', () => {
     //     var result = validatePassword(password);
     //     expect(result.strength).to.equal('weak');
     //   });
-    //   it('returns the password unmodified when strong', () => {
-    //     var password = 'x0_ r2461345a';
-    //
-    //     var result = validatePassword(password);
-    //     expect(result.strength).to.equal('strong');
-    // });
+      it('returns the password unmodified when strong', () => {
+        var password = 'x0_ r2461345a';
+
+        var result = validatePassword(password);
+        expect(result.strength).to.equal('strong');
+    });
   });
   describe('replaceWords', () => {
     it('replaces an instance of an english word', () => {
