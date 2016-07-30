@@ -18,14 +18,9 @@ describe('Password Service', () => {
       it('returns lengthened password when weak', () => {
         var password = 'x0_ ';
         var result = validatePassword(password);
-        console.log("=========");
-        console.log("=========");
-        console.log("=========");
-        console.log(result);
-        console.log("=========");
-        console.log("=========");
-        console.log("=========");
+        expect(result.modifiedPassword.length).to.be.above(password.length);
         expect(result.strength).to.equal('weak');
+        expect(result.passwordStrength).to.be.above(50);
       });
     //   it('returns substituted password when weak', () => {
     //     var password = 'x02)rrrrrrrrrrrr';

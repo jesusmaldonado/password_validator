@@ -151,15 +151,5 @@ export function substituteString(password, idx, missing) {
     'other': '.'
   };
   var newChar = substitutionMap[missing];
-  var newStr = password.substr(0, idx) + newChar + password.substr(idx+1);
-  console.log("----============")
-  console.log("----============")
-  console.log("----============")
-  console.log("----============")
-  console.log(idx + 1)
-  console.log("----============")
-  console.log("----============")
-  console.log("----============")
-  console.log("----============")
   return password.substr(0, idx) + newChar + password.substr(idx+1);
 }
