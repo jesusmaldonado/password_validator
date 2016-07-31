@@ -50,7 +50,7 @@
   },
   "scripts": {
     "babel": "babel-node",
-    "test": "mocha --compilers js:babel-core/register --require ./test/test_helper.js \"test/**/*@(.js|.jsx)\"",
+    "test": "mocha --compilers js:babel-core/register \"test/**/*@(.js|.jsx)\"",
     "start": "node ./scripts/start.js",
     "build": "node ./scripts/build.js"
   }

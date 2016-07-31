@@ -211,6 +211,18 @@ export function containsSpecialSubstitution(password, repeats, missing) {
       repeat: 'other',
       missing: 'letter',
       substitution: 's'
+    },
+    {
+      regex: /l/i,
+      repeat: 'letter',
+      missing: 'other',
+      substitution: '!'
+    },
+    {
+      regex: /!/i,
+      repeat: 'other',
+      missing: 'letter',
+      substitution: 'l'
     }
   ];
   let newPw = false;

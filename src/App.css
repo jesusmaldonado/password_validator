@@ -1,19 +1,39 @@
-.App {
+.app {
   text-align: center;
   display: flex;
   flex-direction: column;
 }
 
-.App-header {
+.passwordHeader {
   color: #159d1a;
-  font-size: 2em;
-  padding: 1em;
+  font-size: 2rem;
+  padding: 1rem;
+  transition: height 2s linear;
 }
 
-.App-header h2 {
-  transition: all 2s linear;
+button:focus, input:focus {
+  outline: none;
 }
 
-.App-intro {
-  font-size: large;
+.passwordInput {
+  padding: 1rem;
+  text-align: center;
+  margin: 2rem 10rem;
+  transition: height, font-size 0.2s ease;
+  font-size: 1rem;
+}
+
+.passwordSubmit {
+  padding: 1rem;
+  text-align: center;
+  margin: 2rem 20rem;
+  border-radius: 42px;
+  border: 0;
+  font-size: 2rem;
+  transition: background-color 1s ease;
+}
+
+.passwordSubmit:hover {
+  background-color: #159d1a;
+  color: white;
 }

@@ -23,7 +23,7 @@ describe('Password Service', () => {
 
         expect(result.strength).to.equal('weak');
       });
-      
+
       it('returns lengthened password when weak', () => {
         const password = 'x0_ ';
         const result = validatePassword(password);

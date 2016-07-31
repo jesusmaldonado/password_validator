@@ -10,6 +10,7 @@ export default React.createClass({
     const result = validatePassword(this.state.password)
     this.setState({
       message: result.message,
+      password: result.modifiedPassword ? result.modifiedPassword : this.state.password,
       validating: false
     })
   },
@@ -17,15 +18,16 @@ export default React.createClass({
     this.setState({password: evt.target.value});
   },
   render() {
-    return <div className="App">
-        <div className="App-header">
+    return <div className="app">
+        <div className={"passwordHeader" + (this.state.validating ? ' empty' : '')}>
             <h2>{ this.state.validating ? '': this.state.message }</h2>
         </div>
         <input className="passwordInput"
                value={this.state.password}
                onChange={this.handleChange}/>
-        <button type="submit"
-                disabled={this.state.validate}
+        <button className="passwordSubmit"
+                type="submit"
+                disabled={this.state.validating}
                 onClick={this.handleClick}>
         Validate password
         </button>
@@ -34,7 +36,7 @@ export default React.createClass({
   getInitialState() {
     return {
       message: 'Input a new password',
-      password: 'samplePassword',
+      password: 'longInitialPassword',
       validating: false
     };
   }
