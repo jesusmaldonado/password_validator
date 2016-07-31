@@ -12,7 +12,7 @@ In the project directory, you can run:
 
 ### `npm install`
 
-### `npm run start`
+### `npm run dev`
 
 Runs the app in the development mode.<br>
 Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
@@ -27,3 +27,4 @@ Runs the tests in the development mode.<br>
 Refactor logic? <br>
 Consider using a websockets connection to remove some load from client side? <br>
 Styling <br>
+Figure out how to deploy this thing to heroku, need to find out what commands it's running <br>
