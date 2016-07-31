@@ -1,9 +1,13 @@
 ## Password Validator
 
 The app validates passwords according to a specific algorithm and then displays it along in the app. The basic algorithm is:
-1. Replace any English words with a character.
+
+1. Replace any English words with a character.<br>
+
 2. Count character types (letters, digits, whitespace, other)
+
 3. Derive the strength of the word by: `length x numberOfTypes`
+
 4. State the strength of the password and increase strength until necessary, giving preference to substitutions for character type and then length increase.
 
 ## Getting Started
