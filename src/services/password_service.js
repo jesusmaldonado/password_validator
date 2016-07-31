@@ -17,11 +17,15 @@ export function countCharacterTypes(string){
     'other': 0
   };
   for (let idx in string) {
+    if (string.hasOwnProperty(idx)) {
+      idx = parseInt(idx, 10);
+    }
     const char = string[idx];
     const charType = findType(char);
     characterTypes[charType] += 1;
   }
   const keys = Object.keys(characterTypes);
+  /* eslint-disable no-unused-vars */
   const characterTypeCount = keys
                              .map((key) => {
                                const instanceCount = characterTypes[key];
@@ -67,7 +71,6 @@ export function countStrength(string) {
 export function validatePassword(password){
   const substitutedString = replaceEnglishWords(password);
   let passwordStrength = countStrength(substitutedString);
-  let returnObj;
   if (passwordStrength > 50) {
     return {
       originalPassword: password,
@@ -97,17 +100,18 @@ export function validatePassword(password){
       message: `${password} is unacceptable!`
     }
   }
-  return returnObj;
 };
 
 export function modifyPassword(password) {
+  /* eslint-disable no-unused-vars */
   const [
     characterTypeCount,
     includedCharacterTypes,
     missingCharacterTypes,
     repeatedCharacterTypes,
-    characterTypes
+    ...rest
   ] = countCharacterTypes(password);
+  /* eslint-enable no-unused-vars */
   if (repeatedCharacterTypes.length && missingCharacterTypes.length) {
     const replacedString = replaceString(password, repeatedCharacterTypes, missingCharacterTypes);
     return replacedString;
@@ -118,12 +122,17 @@ export function modifyPassword(password) {
 };
 
 export function replaceString(password, repeats, missing) {
+  const specialSubstitution = containsSpecialSubstitution(password, repeats, missing);
+console.log("specialsub", specialSubstitution);
+  if (specialSubstitution) {
+    return specialSubstitution;
+  }
   for (let idx = 0; idx < password.length; idx++) {
     var char = password[idx];
     var charType = findType(char);
     if (repeats.includes(charType)) {
       var missingType = missing.shift()
-      var substitutedString = substituteString(password, idx, missingType);
+      var substitutedString = substituteString(password, idx, missingType, char);
       return substitutedString;
     }
   }
@@ -142,13 +151,80 @@ export function findType(char) {
   return 'other';
 }
 
-export function substituteString(password, idx, missing) {
-  var substitutionMap = {
+export function substituteString(password, idx, missing, char) {
+  const substitutionMap = {
     'letter': 'r',
-    'digit': '9',
+    'digit': '0',
     'whitespace': ' ',
-    'other': '.'
+    'other': '_'
   };
-  var newChar = substitutionMap[missing];
+  const newChar = substitutionMap[missing];
   return password.substr(0, idx) + newChar + password.substr(idx+1);
+}
+
+export function containsSpecialSubstitution(password, repeats, missing) {
+  const potentialSpecialConditions = [
+    {
+      regex: /0/i,
+      repeat: 'digit',
+      missing: 'letter',
+      substitution: 'o'
+    },
+    {
+      regex: /o/i,
+      repeat: 'letter',
+      missing: 'digit',
+      substitution: '0'
+
+    },
+    {
+      regex: /1/i,
+      repeat: 'digit',
+      missing: 'letter',
+      substitution: 'i'
+    },
+    {
+      regex: /i/i,
+      repeat: 'letter',
+      missing: 'digit',
+      substitution: '1'
+    },
+    {
+      regex: /a/i,
+      repeat: 'letter',
+      missing: 'other',
+      substitution: '@'
+    },
+    {
+      regex: /@/i,
+      repeat: 'other',
+      missing: 'letter',
+      substitution: 'a'
+    },
+    {
+      regex: /s/i,
+      repeat: 'letter',
+      missing: 'other',
+      substitution: '$'
+    },
+    {
+      regex: /\$/i,
+      repeat: 'other',
+      missing: 'letter',
+      substitution: 's'
+    }
+  ];
+  let newPw = false;
+  potentialSpecialConditions.forEach((condition) => {
+    const specialSubstitution = repeats.includes(condition['repeat']) &&
+      missing.includes(condition['missing']);
+    const matchingCharacter = password.match(condition['regex']);
+    if (matchingCharacter && specialSubstitution) {
+      const matchingIndex = condition['regex'].lastIndex;
+      newPw = password.substr(0, matchingIndex) +
+        condition['substitution'] +
+        password.substr(matchingIndex + 1);
+    }
+  });
+  return newPw;
 }

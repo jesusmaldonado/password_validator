@@ -1,9 +1,13 @@
 import React from 'react';
 import './App.css';
-
+import { validatePassword } from './services/password_service';
 export default React.createClass({
-  validatePassword(){
+  handleClick(){
     this.setState({message: 'Validating Password'});
+    const result = validatePassword(this.state.password)
+    this.setState({
+      message: result.message
+    })
   },
   handleChange(evt){
     this.setState({password: evt.target.value});
@@ -18,7 +22,7 @@ export default React.createClass({
                onChange={this.handleChange}/>
         <button type="submit"
                 disabled={this.state.validate}
-                onClick={this.validatePassword}>
+                onClick={this.handleClick}>
         Validate password
         </button>
       </div>;

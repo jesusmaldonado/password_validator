@@ -31,7 +31,15 @@ describe('Password Service', () => {
         expect(result.modifiedPassword.length).to.equal(password.length);
         expect(result.passwordStrength).to.be.above(50);
       });
-      it('returns substituted, lengthened password when weak', ()=> {
+      it('returns substituted password giving preference to special chars', () => {
+        var password = '$$$$$$$$$$$$0  ';
+        var result = validatePassword(password);
+        expect(result.strength).to.equal('weak');
+        expect(result.modifiedPassword).to.include('s');
+        expect(result.modifiedPassword.length).to.equal(password.length);
+        expect(result.passwordStrength).to.be.above(50);
+      });
+      it('returns substituted, lengthened password when weak', () => {
         var password = 'x02)rrrrrr';
         var result = validatePassword(password);
         expect(result.modifiedPassword.length).to.be.above(password.length);
