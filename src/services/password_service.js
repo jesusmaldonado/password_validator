@@ -97,7 +97,7 @@ export function validatePassword(password){
       originalPassword: password,
       passwordStrength,
       strength: 'unacceptable',
-      message: `${password} is unacceptable!`
+      message: `${password} is unacceptable! Try a longer password!`
     }
   }
 };
