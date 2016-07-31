@@ -123,7 +123,6 @@ export function modifyPassword(password) {
 
 export function replaceString(password, repeats, missing) {
   const specialSubstitution = containsSpecialSubstitution(password, repeats, missing);
-console.log("specialsub", specialSubstitution);
   if (specialSubstitution) {
     return specialSubstitution;
   }
@@ -216,15 +215,20 @@ export function containsSpecialSubstitution(password, repeats, missing) {
   ];
   let newPw = false;
   potentialSpecialConditions.forEach((condition) => {
-    const specialSubstitution = repeats.includes(condition['repeat']) &&
-      missing.includes(condition['missing']);
+    const specialSubstitution = missing.includes(condition['missing']);
     const matchingCharacter = password.match(condition['regex']);
     if (matchingCharacter && specialSubstitution) {
+
       const matchingIndex = condition['regex'].lastIndex;
-      newPw = password.substr(0, matchingIndex) +
-        condition['substitution'] +
-        password.substr(matchingIndex + 1);
+      const char = password[matchingIndex];
+      const charType = findType(char);
+      if (repeats.includes(charType)) {
+        newPw = password.substr(0, matchingIndex) +
+          condition['substitution'] +
+          password.substr(matchingIndex + 1);
+      }
     }
   });
+  console.log(newPw);
   return newPw;
 }

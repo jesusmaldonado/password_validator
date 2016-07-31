@@ -16,6 +16,14 @@ describe('Password Service', () => {
 
         expect(result.strength).to.equal('unacceptable');
       });
+
+      it('returns the unacceptable password', () => {
+        var password = '0amplePassword';
+        var result = validatePassword(password);
+
+        expect(result.strength).to.equal('weak');
+      });
+      
       it('returns lengthened password when weak', () => {
         const password = 'x0_ ';
         const result = validatePassword(password);
